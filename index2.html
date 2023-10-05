@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Video with PiP</title>
+    <style>
+        #video-container {
+            position: relative;
+        }
+        #pip-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            z-index: 1;
+        }
+    </style>
+</head>
+<body>
+<!-- Placeholder for scrolling -->
+<div id="video-container">
+    <iframe
+            id="youtube-video"
+            width="560"
+            height="315"
+            src="https://www.youtube.com/embed/Po3jStA673E?si=1AZzSt_8fVGwelsk"
+            frameborder="0"
+            allowfullscreen
+
+    ></iframe>
+    <button id="pip-button">Toggle PiP</button>
+</div>
+
+<div style="height: 1000px; background-color: #f0f0f0;"></div>
+<script>
+
+    document.addEventListener("DOMContentLoaded", () => {
+        const youtubeVideo = document.getElementById("youtube-video");
+        const pipButton = document.getElementById("pip-button");
+        let isVideoInView = true; // Renamed the variable
+
+        // Function to check if the video is in the viewport
+        function checkVideoVisibility() { // Renamed the function
+            const rect = youtubeVideo.getBoundingClientRect();
+            const isVideoVisible = (
+                rect.top >= 0 &&
+                rect.left >= 0 &&
+                rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+                rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+            );
+
+            if (!isVideoVisible && document.pictureInPictureElement !== youtubeVideo) {
+                togglePiP();
+            }
+
+            isVideoInView = isVideoVisible; // Update the variable
+        }
+
+        // Toggle PiP mode
+        function togglePiP() {
+            if (document.pictureInPictureElement === youtubeVideo) {
+                document.exitPictureInPicture()
+                    .then(() => {
+                        console.log("Exited PiP mode");
+                        pipButton.textContent = "Enter PiP";
+                    })
+                    .catch((error) => {
+                        console.error("Failed to exit PiP mode:", error);
+                    });
+            } else {
+                youtubeVideo.requestPictureInPicture()
+                    .then(() => {
+                        console.log("Entered PiP mode");
+                        pipButton.textContent = "Exit PiP";
+                    })
+                    .catch((error) => {
+                        console.error("Failed to enter PiP mode:", error);
+                    });
+            }
+        }
+
+        // Event listener for the PiP button
+        pipButton.addEventListener("click", togglePiP);
+
+        // Check video visibility when scrolling
+        window.addEventListener("scroll", checkVideoVisibility);
+    });
+
+</script>
+</body>
+</html>
