@@ -22,23 +22,10 @@
   <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
   <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
   <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+
+
   <!-- Template Main CSS File -->
   <link href="assets/css/style.css" rel="stylesheet">
-
-  <style>
-    /* Style the container */
-    .video-container {
-      max-width: 800px;
-      margin: 0 auto;
-      text-align: center;
-    }
-
-    /* Style the video element */
-    video {
-      width: 100%;
-      height: auto;
-    }
-  </style>
 
 
 </head>
@@ -83,18 +70,7 @@
 
         <div class="col-lg-6 d-flex flex-column justify-content-center pt-4 pt-lg-0 order-2 order-lg-1" >
 
-
-          <div class="video-container">
-            <video id="my-video" controls>
-              <source src="assets/videos/weDevs Assignment.mp4" type="video/mp4">
-              Your browser does not support the video tag.
-            </video>
-          </div>
-
-
-
-
-
+               <video src="assets/videos/weDevs Assignment.mp4" controls width="600px" id="myVideo" type="video"></video>
 
           </div>
 
@@ -309,7 +285,7 @@ let options ={
 
 let callback =(entries , observer)=>{
   entries.forEach(entry=>{
-    if(entry.target.id == 'my-video'){
+    if(entry.target.id == 'myVideo'){
       if (entry.isIntersecting){
         entry.target.play();
       }
@@ -335,10 +311,9 @@ let callback =(entries , observer)=>{
 }
 
 let observer = new IntersectionObserver(callback, options);
-observer.observe(document.querySelector('#my-video'));
+observer.observe(document.querySelector('#myVideo'));
 
   </script>
-
 
 </body>
 
